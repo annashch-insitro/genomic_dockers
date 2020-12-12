@@ -13,12 +13,10 @@
 ARG PARENT_DOCKER
 FROM "$PARENT_DOCKER"
 	
-WORKDIR /home/$NB_USER
+WORKDIR /home/$DOCKER_USER
 
 ## Download and install Miniconda
 COPY files/environment.yml /tmp/environment.yml
-COPY files/fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions
 RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh &&\ 
@@ -32,15 +30,13 @@ RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_
     jupyter notebook --generate-config && \    
     conda clean --all -f -y && \
     rm -rf ~/.cache/pip && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER    
 
 # We aren't running a GUI, so force matplotlib to use
 # the non-interactive "Agg" backend for graphics.
 # Run matplotlib once to build the font cache.
-ENV MATPLOTLIBRC=${HOME}/.config/matplotlib/matplotlibrc
-RUN mkdir -p ${HOME}/.config/matplotlib && \
-    echo "backend      : Agg" > ${HOME}/.config/matplotlib/matplotlibrc && \
+ENV MATPLOTLIBRC=.config/matplotlib/matplotlibrc
+RUN mkdir -p .config/matplotlib && \
+    echo "backend      : Agg" > /.config/matplotlib/matplotlibrc && \
     python -c "import matplotlib.pyplot"
 
 # Enable widgetsnbextension for jupyter widgets.
@@ -58,8 +54,8 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
 # Install IRKernel
-COPY files/install_IRKernel.R /tmp
-RUN Rscript /tmp/install_IRKernel.R
+COPY files/install_genomics.R /tmp
+RUN Rscript /tmp/install_genomics.R
 
 
 # Runtime

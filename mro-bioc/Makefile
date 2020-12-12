@@ -1,4 +1,4 @@
-IMAGE=mro-verse
+IMAGE=mro-bioc
 VERSION=4.0.2
 REGISTRY=shmohammadi86
 PARENT_DOCKER=shmohammadi86/mro

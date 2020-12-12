@@ -1,7 +1,7 @@
 IMAGE=genomics
 VERSION=1.0.0
 REGISTRY=shmohammadi86
-PARENT_DOCKER=mro-verse
+PARENT_DOCKER=mro-bioc
 
 all: build
 
