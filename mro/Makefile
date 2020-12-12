@@ -1,4 +1,4 @@
-IMAGE=mran
+IMAGE=mro
 VERSION=4.0.2
 REGISTRY=shmohammadi86
 PARENT_DOCKER=ubuntu:20.04 

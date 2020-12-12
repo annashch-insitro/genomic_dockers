@@ -49,6 +49,13 @@ RUN apt-get update \
         libxml2-dev \
         libssl-dev \
         libpangocairo-1.0-0 \
+		libcairo2-dev \
+		libsqlite3-dev \
+		libmariadbd-dev \
+		libmariadbclient-dev \
+		libpq-dev \
+		libssh2-1-dev \
+		unixodbc-dev \
 		# extras
 		locate \
 		mc \
@@ -93,5 +100,8 @@ RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/Ubun
     && dpkg --install microsoft-r-open/deb/microsoft-r-open-mkl-$MRO_VERSION.deb \
     && rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
+
+RUN echo "export MKL_NUM_THREADS=\`nproc\`" >> ~/.bashrc && \
+	echo "MKL_THREADING_LAYER=GNU" >> ~/.bashrc
 
 CMD ["/usr/bin/R", "--no-save"]
