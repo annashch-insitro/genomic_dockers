@@ -1,7 +1,7 @@
-IMAGE=mran
+IMAGE=genomics
 VERSION=1.0.0
 REGISTRY=shmohammadi86
-PARENT_DOCKER=mran
+PARENT_DOCKER=mro-verse
 
 all: build
 
