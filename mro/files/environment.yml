@@ -1,0 +1,29 @@
+name: base
+channels:
+  - conda-forge
+  - pytorch
+  - bioconda
+  - defaults
+dependencies:
+  - python
+  - notebook
+  - jupyterhub
+  - jupyterlab
+  - awscli
+  - boto3
+  - botocore
+  - dask
+  - dask-core
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib-base
+  - matplotlib
+  - pyyaml
+  - h5py
+  - pytorch
+  - pip
+  - tini
+  - plotly
+  - cython
+  - nomkl
