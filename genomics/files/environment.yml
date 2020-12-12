@@ -27,3 +27,14 @@ dependencies:
   - plotly
   - cython
   - nomkl
+  - pip:
+    - solo-sc
+    - scrublet
+    - kb-python
+    - cellxgene
+    - anndata
+    - scanpy
+    - scvi-tools
+    - scanorama
+    - bbknn
+    - wot

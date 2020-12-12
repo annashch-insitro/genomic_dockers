@@ -17,6 +17,8 @@ WORKDIR /home/$NB_USER
 
 ## Download and install Miniconda
 COPY files/environment.yml /tmp/environment.yml
+COPY fix-permissions /usr/local/bin/fix-permissions
+RUN chmod a+rx /usr/local/bin/fix-permissions
 RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh &&\ 
