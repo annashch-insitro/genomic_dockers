@@ -10,7 +10,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-FROM nuest/mro:4.0.2
+ARG PARENT_DOCKER
+FROM "$PARENT_DOCKER"
 
 ENV PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
 
