@@ -48,6 +48,7 @@ RUN apt-get update \
         libcurl4-openssl-dev \
         libxml2-dev \
         libssl-dev \
+        libpangocairo-1.0-0 \
 		# extras
 		locate \
 		mc \
@@ -69,23 +70,20 @@ ENV LC_ALL=en_US.UTF-8 \
     PATH=/opt/conda/bin:$PATH \
     CONDARC=/opt/conda/.condarc \
 	CONDA_DIR=/opt/conda \    
-    NB_USER=docker \
-    NB_UID=1000 \
-    NB_GID=100 \
-    HOME=/home/$NB_USER
+    DOCKER_USER=docker \
+    DOCKER_UID=1000 \
+    DOCKER_GID=100 \
+    HOME=/home/$DOCKER_USER
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-COPY files/fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
     sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
-    useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    chmod g+w /etc/passwd && \
-    fix-permissions $HOME   
+    useradd -m -s /bin/bash -N -u $DOCKER_UID $DOCKER_USER && \
+    chmod g+w /etc/passwd
 
-WORKDIR /home/$NB_USER
+WORKDIR /home/$DOCKER_USER
 
 ## Donwload and install MRO & MKL
 COPY files/Rprofile.site $R_HOME/etc/Rprofile.site
@@ -96,56 +94,4 @@ RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/Ubun
     && rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
-## Download and install Miniconda
-COPY files/environment.yml /tmp/environment.yml
-RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-latest-Linux-x86_64.sh &&\ 
-	echo "conda ${CONDA_VERSION}" >> $CONDA_DIR/conda-meta/pinned && \
-    conda config --system --set auto_update_conda false && \
-    conda config --system --set show_channel_urls true && \
-    conda update --quiet --yes conda && \
-    conda env update -f /tmp/environment.yml -n base && \    
-    conda list python | grep '^python ' | tr -s ' ' | cut -d '.' -f 1,2 | sed 's/$/.*/' >> $CONDA_DIR/conda-meta/pinned && \
-    conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \    
-    jupyter notebook --generate-config && \    
-    conda clean --all -f -y && \
-    rm -rf ~/.cache/pip && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER    
-
-# Install IRKernel
-COPY files/install_IRKernel.R /tmp
-RUN Rscript /tmp/install_IRKernel.R
-
-
-# We aren't running a GUI, so force matplotlib to use
-# the non-interactive "Agg" backend for graphics.
-# Run matplotlib once to build the font cache.
-ENV MATPLOTLIBRC=${HOME}/.config/matplotlib/matplotlibrc
-RUN mkdir -p ${HOME}/.config/matplotlib && \
-    echo "backend      : Agg" > ${HOME}/.config/matplotlib/matplotlibrc && \
-    python -c "import matplotlib.pyplot"
-
-# Enable widgetsnbextension for jupyter widgets.
-# See https://ipywidgets.readthedocs.io/en/stable/user_install.html.
-# This enables the extension in the conda environment. The conda-forge version
-# does this upon installation, but the default channel version doesn't seem to,
-# so we'll run this (again) just in case.
-RUN jupyter nbextension enable --py widgetsnbextension
-
-# Instruct joblib to use disk for temporary files. Joblib defaults to
-# /shm when that directory is present. In the Docker container, /shm is
-# present but defaults to 64 MB.
-# https://github.com/joblib/joblib/blob/0.11/joblib/parallel.py#L328L342
-ENV JOBLIB_TEMP_FOLDER=/tmp
-
-
-# Runtime
-EXPOSE 8888
-
-# Configure container startup
-COPY files/start/* /usr/local/bin/
-COPY files/jupyter_notebook_config.py /etc/jupyter/
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
+CMD ["/usr/bin/R", "--no-save"]
