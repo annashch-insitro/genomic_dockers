@@ -52,6 +52,8 @@ RUN wget "https://travis-bin.yihui.name/texlive-local.deb" \
     libopenmpi-dev \
 	# for updating package mgcv
 	gfortran \
+	# For devtools
+	libgit2-dev
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
 
