@@ -19,7 +19,7 @@ ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=1.3.1093
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
-ADD files/* /rocker_scripts
+ADD files/* /rocker_scripts/
 
 WORKDIR /rocker_scripts
 RUN chmod +x *.sh && \
