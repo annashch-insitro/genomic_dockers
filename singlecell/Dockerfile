@@ -58,17 +58,7 @@ RUN jupyter nbextension enable --py widgetsnbextension
 ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
-# Install IRKernel
+# Install R packages
 COPY files/install_genomics.R /tmp
 RUN Rscript /tmp/install_genomics.R
 
-
-
-# Runtime
-EXPOSE 8888
-
-# Configure container startup
-COPY files/start/* /usr/local/bin/
-COPY files/jupyter_notebook_config.py /etc/jupyter/
-ENTRYPOINT ["tini", "-g", "--"]
-CMD ["start-notebook.sh"]
