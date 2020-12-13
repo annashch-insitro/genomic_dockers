@@ -18,6 +18,20 @@ ENV PATH=/opt/conda/bin:$PATH \
 	CONDA_DIR=/opt/conda
 
 	
+RUN echo "CXX14 = g++ -std=c++1y -Wno-unused-variable -Wno-unused-function -fPIC" >> ~/.R/Makevars
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update \
+	&& apt-get install -yq --no-install-recommends \
+	libmpfr-dev \
+	tcl8.6-dev tk8.6-dev \
+	libudunits2-dev \
+	libproj-dev \
+	libharfbuzz-dev \
+	libgsl-dev \
+	&& apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 WORKDIR /home/$DOCKER_USER
 
 ## Download and install Miniconda
