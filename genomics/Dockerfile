@@ -29,7 +29,7 @@ RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_
     conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \    
     jupyter notebook --generate-config && \    
     conda clean --all -f -y && \
-    rm -rf ~/.cache/pip && \
+    rm -rf ~/.cache/pip
 
 # We aren't running a GUI, so force matplotlib to use
 # the non-interactive "Agg" backend for graphics.
