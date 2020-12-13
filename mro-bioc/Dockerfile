@@ -55,7 +55,7 @@ RUN wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
 
-ADD files/* /tmp
+ADD files/* /tmp/
 RUN Rscript /tmp/install_bioc.R
 RUN Rscript /tmp/install_extras.R
 RUN /tmp/install_tinitex.sh
