@@ -30,7 +30,7 @@ RUN apt-get update \
 	libfribidi-dev \
 	aptitude \
 	libgsl-dev \
-	&& aptitude install gdal-bin proj-bin libgdal-dev libproj-dev \
+	&& aptitude install -yq gdal-bin proj-bin libgdal-dev libproj-dev \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
 	&& apt-get autoremove
 
