@@ -19,14 +19,9 @@ ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=1.3.1093
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
-WORKDIR /rocker_scripts
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/install_rstudio.sh install_rstudio.sh
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/install_pandoc.sh install_pandoc.sh
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/install_s6init.sh install_s6init.sh
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/default_user.sh default_user.sh
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/userconf.sh userconf.sh
-ADD https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/pam-helper.sh pam-helper.sh
+ADD files/* /rocker_scripts
 
+WORKDIR /rocker_scripts
 RUN chmod +x *.sh && \
   ./install_rstudio.sh && \
   ./install_pandoc.sh
