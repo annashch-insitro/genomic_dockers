@@ -12,6 +12,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ARG PARENT_DOCKER
 FROM "$PARENT_DOCKER"
+
+ENV PATH=/opt/conda/bin:$PATH \
+    CONDARC=/opt/conda/.condarc \
+	CONDA_DIR=/opt/conda
+
 	
 WORKDIR /home/$DOCKER_USER
 
@@ -57,7 +62,6 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 COPY files/install_genomics.R /tmp
 RUN Rscript /tmp/install_genomics.R
 
-RUN echo $'MKL_THREADING_LAYER=GNU\nMKL_NUM_THREADS=`nproc`' >> MKL_NUM_THREADS
 
 
 # Runtime

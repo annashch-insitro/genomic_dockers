@@ -56,6 +56,8 @@ RUN apt-get update \
 		libpq-dev \
 		libssh2-1-dev \
 		unixodbc-dev \
+		libhdf5-dev \
+		libsuitesparse-dev \
 		# extras
 		locate \
 		mc \
@@ -73,16 +75,10 @@ ENV LC_ALL=en_US.UTF-8 \
     BASH_ENV=/etc/profile \
     SHELL=/bin/bash \
     MRO_VERSION=4.0.2 \
-    R_HOME=/opt/microsoft/ropen/$MRO_VERSION/lib64/R \
-    PATH=/opt/conda/bin:$PATH \
-    CONDARC=/opt/conda/.condarc \
-	CONDA_DIR=/opt/conda \    
     DOCKER_USER=docker \
     DOCKER_UID=1000 \
     DOCKER_GID=100 \
     HOME=/home/$DOCKER_USER
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
@@ -93,7 +89,6 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 WORKDIR /home/$DOCKER_USER
 
 ## Donwload and install MRO & MKL
-COPY files/Rprofile.site $R_HOME/etc/Rprofile.site
 RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/Ubuntu/microsoft-r-open-$MRO_VERSION.tar.gz \
 	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz\
 	&& dpkg --install microsoft-r-open/deb/microsoft-r-open-mro-$MRO_VERSION.deb \
@@ -101,7 +96,10 @@ RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/Ubun
     && rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
-RUN echo "export MKL_NUM_THREADS=\`nproc\`" >> ~/.bashrc && \
-	echo "MKL_THREADING_LAYER=GNU" >> ~/.bashrc
 
+COPY files/Rprofile.site /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
+RUN echo 'export MKL_NUM_THREADS=`nproc`\nexport MKL_THREADING_LAYER=GNU' >> ~/.bashrc && \
+	mkdir ~/.R/ && \
+	echo "MAKEFLAGS+=-j \`nproc\`" >> ~/.R/Makevars
+	
 CMD ["/usr/bin/R", "--no-save"]

@@ -15,18 +15,6 @@ FROM "$PARENT_DOCKER"
 
 ENV PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
 
-## Taken from https://github.com/rocker-org/rocker-versioned/blob/master/tidyverse/3.5.3/Dockerfile
-RUN Rscript -e 'install.packages(c( \
-    "tidyverse", \
-    "dplyr", \
-    "devtools", \
-    "formatR", \
-    "remotes", \
-    "selectr", \
-    "caTools", \
-    "BiocManager"))'
-
-## Add LaTeX, rticles and bookdown support, taken (and split up, removed rJava) from https://github.com/rocker-org/rocker-versioned/blob/master/verse/3.5.3/Dockerfile
 RUN wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && dpkg -i texlive-local.deb \
   && rm texlive-local.deb \
@@ -67,26 +55,7 @@ RUN wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
 
-RUN \
-  ## Use tinytex for LaTeX installation
-  Rscript -e 'install.packages("tinytex")' \ 
-  ## Admin-based install of TinyTeX:
-  && wget -qO- \
-    "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
-    sh -s - --admin --no-path \
-  && mv ~/.TinyTeX /opt/TinyTeX \
-  && /opt/TinyTeX/bin/*/tlmgr path add \
-  && tlmgr install metafont mfware inconsolata tex ae parskip listings \
-  && tlmgr path add \
-  && Rscript -e "tinytex::r_texmf()" \
-  && chown -R root:staff /opt/TinyTeX \
-  && mkdir -p /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library \
-  && chown -R root:staff /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library \
-  && chmod -R g+w /opt/TinyTeX \
-  && chmod -R g+wx /opt/TinyTeX/bin \
-  && echo "PATH=${PATH}" >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Renviron \
-  && Rscript -e 'install.packages("PKI")'
-
-RUN \
-  ## And some nice R packages for publishing-related stuff
-  Rscript -e 'install.packages(c("bookdown", "rticles", "rmdshower"))'
+ADD files/* /tmp
+RUN Rscript /tmp/install_bioc.R
+RUN Rscript /tmp/install_extras.R
+RUN /tmp/install_tinitex.sh

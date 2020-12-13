@@ -2,3 +2,4 @@ options(repos = c(CRAN = 'https://cloud.r-project.org'), download.file.method = 
 options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(),
                  paste(getRversion(), R.version$platform,
                        R.version$arch, R.version$os)))
+Sys.setenv(CURL_CA_BUNDLE = file.path(Sys.getenv('R_HOME'), 'lib/microsoft-r-cacert.pem'))
