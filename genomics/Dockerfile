@@ -57,6 +57,8 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 COPY files/install_genomics.R /tmp
 RUN Rscript /tmp/install_genomics.R
 
+RUN echo $'MKL_THREADING_LAYER=GNU\nMKL_NUM_THREADS=`nproc`' >> MKL_NUM_THREADS
+
 
 # Runtime
 EXPOSE 8888
