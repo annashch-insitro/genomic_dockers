@@ -1,12 +1,15 @@
-IMAGE=genomics
-VERSION=1.0.0
-REGISTRY=shmohammadi86
 PARENT_DOCKER=mro-bioc
+REGISTRY=shmohammadi86
+IMAGE_NAME=genomics
+VERSION=singlecell
 
 all: build
 
 build:
-	docker build -t $(IMAGE) -t $(IMAGE):${VERSION} -t $(REGISTRY)/$(IMAGE) -t $(REGISTRY)/$(IMAGE):${VERSION} --build-arg PARENT_DOCKER=${PARENT_DOCKER} .
-
+	docker build \
+	  --tag $(IMAGE_NAME):${VERSION} \
+	  --tag $(REGISTRY)/$(IMAGE_NAME):${VERSION} \
+	  --build-arg PARENT_DOCKER=${PARENT_DOCKER} \
+	  -t $(IMAGE_NAME) .
 test:
 	docker run --rm -it $(IMAGE) bash
