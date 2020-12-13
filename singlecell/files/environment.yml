@@ -9,6 +9,7 @@ dependencies:
   - notebook
   - jupyterhub
   - jupyterlab
+  - jupyter-client
   - awscli
   - boto3
   - botocore

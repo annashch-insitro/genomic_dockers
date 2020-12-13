@@ -27,7 +27,8 @@ RUN apt-get update \
 	tcl8.6-dev tk8.6-dev \
 	libudunits2-dev \
 	libproj-dev \
-	libharfbuzz-dev \
+	libfribidi-dev \
+	libgdal-dev \
 	libgsl-dev \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
