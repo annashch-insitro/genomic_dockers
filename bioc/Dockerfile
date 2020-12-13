@@ -53,7 +53,7 @@ RUN wget "https://travis-bin.yihui.name/texlive-local.deb" \
 	# for updating package mgcv
 	gfortran \
 	# For devtools
-	libgit2-dev
+	libgit2-dev \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
 
