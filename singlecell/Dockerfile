@@ -28,10 +28,11 @@ RUN apt-get update \
 	libudunits2-dev \
 	libproj-dev \
 	libfribidi-dev \
-	libgdal-dev \
+	aptitude \
 	libgsl-dev \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/*
-
+	&& aptitude install gdal-bin proj-bin libgdal-dev libproj-dev \
+	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
+	&& apt-get autoremove
 
 WORKDIR /home/$DOCKER_USER
 
