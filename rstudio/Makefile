@@ -1,4 +1,4 @@
-PARENT_DOCKER=mro-bioc
+PARENT_DOCKER=shmohammadi86/genomics:bioc
 REGISTRY=shmohammadi86
 IMAGE_NAME=genomics
 VERSION=rstudio
