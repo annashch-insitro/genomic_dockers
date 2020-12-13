@@ -19,9 +19,9 @@ ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=1.3.1093
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
-ADD files/* /rocker_scripts/
+ADD files/* /scripts/
 
-WORKDIR /rocker_scripts
+WORKDIR /scripts
 RUN chmod +x *.sh && \
   ./install_rstudio.sh && \
   ./install_pandoc.sh
