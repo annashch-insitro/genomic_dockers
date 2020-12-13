@@ -1,4 +1,6 @@
 #!/bin/bash
 set -e
 
-docker build --build-arg PARENT_DOCKER=ubuntu:20.04 -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+docker build \
+  --build-arg PARENT_DOCKER=ubuntu:20.04 \
+  -t $IMAGE_NAME .

@@ -96,10 +96,9 @@ RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/Ubun
     && rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
-
 COPY files/Rprofile.site /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 RUN echo 'export MKL_NUM_THREADS=`nproc`\nexport MKL_THREADING_LAYER=GNU' >> ~/.bashrc && \
 	mkdir ~/.R/ && \
 	echo "MAKEFLAGS+=-j \`nproc\`" >> ~/.R/Makevars
-	
+
 CMD ["/usr/bin/R", "--no-save"]

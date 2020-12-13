@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+docker build \
+  --build-arg PARENT_DOCKER=shmohammadi86/genomics:mro \
+  -t $IMAGE_NAME .

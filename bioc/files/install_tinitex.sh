@@ -1,5 +1,7 @@
 Rscript -e 'install.packages("tinytex")' \
-	curl -LO -# "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | sh -s - --admin --no-path \
+  && wget -qO- \
+    "https://github.com/yihui/tinytex/raw/master/tools/install-unx.sh" | \
+    sh -s - --admin --no-path \
 	&& mv ~/.TinyTeX /opt/TinyTeX \
 	&& /opt/TinyTeX/bin/*/tlmgr path add \
 	&& tlmgr install metafont mfware inconsolata tex ae parskip listings \

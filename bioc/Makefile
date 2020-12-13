@@ -1,7 +1,7 @@
-PARENT_DOCKER=ubuntu:20.04 
+PARENT_DOCKER=shmohammadi86/genomics:mro
 REGISTRY=shmohammadi86
 IMAGE_NAME=genomics
-VERSION=mro
+VERSION=bioc
 
 all: build
 
