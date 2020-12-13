@@ -34,9 +34,9 @@ RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_
 # We aren't running a GUI, so force matplotlib to use
 # the non-interactive "Agg" backend for graphics.
 # Run matplotlib once to build the font cache.
-ENV MATPLOTLIBRC=.config/matplotlib/matplotlibrc
-RUN mkdir -p .config/matplotlib && \
-    echo "backend      : Agg" > /.config/matplotlib/matplotlibrc && \
+ENV MATPLOTLIBRC=/home/$DOCKER_USER/.config/matplotlib/matplotlibrc
+RUN mkdir -p /home/$DOCKER_USER/.config/matplotlib && \
+    echo "backend      : Agg" > /home/$DOCKER_USER/.config/matplotlib/matplotlibrc && \
     python -c "import matplotlib.pyplot"
 
 # Enable widgetsnbextension for jupyter widgets.
