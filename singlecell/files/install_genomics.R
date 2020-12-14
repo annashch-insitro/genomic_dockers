@@ -13,6 +13,4 @@ devtools::install_github("kharchenkolab/pagoda2")
 devtools::install_github("kharchenkolab/conos")
 devtools::install_github("shmohammadi86/SCINET")
 devtools::install_github("shmohammadi86/NetLibR")
-devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")
 
-devtools::install_github("IRkernel/IRkernel")

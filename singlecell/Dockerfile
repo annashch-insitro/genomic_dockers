@@ -76,8 +76,10 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
 # Install R packages
-COPY files/install_genomics.R /tmp
-RUN Rscript /tmp/install_genomics.R
+# COPY files/install_genomics.R /tmp
+# RUN Rscript /tmp/install_genomics.R
 
-RUN jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'
+# RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
+RUN Rscript -e '' && \
+	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'
