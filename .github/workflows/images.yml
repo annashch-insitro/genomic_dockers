@@ -1,75 +1,31 @@
 name: ci
-
-on:
+'on':
   push:
     branches: master
-
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v1 
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Login to ECR
+      - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.AWS_REGISTRY_URL }}
-          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      -
-        name: Build and push MRO
+          username: '${{ secrets.DOCKERHUB_USERNAME }}'
+          password: '${{ secrets.DOCKERHUB_TOKEN }}'
+      - name: Login to ECR
+        uses: docker/login-action@v1
+        with:
+          registry: '${{ secrets.AWS_REGISTRY_URL }}'
+          username: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+          password: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+      - name: Build and push singlecell
         uses: docker/build-push-action@v2
-        with:        
-          context: ./mro
-          file: ./mro/Dockerfile
-          push: true
-          build-args: |
-            PARENT_DOCKER=ubuntu:20.04
-          tags: |
-            shmohammadi86/genomics:mro
-            ${{ secrets.AWS_REGISTRY_URL }}/mro:latest
-      -
-        name: Build and push BioC
-        uses: docker/build-push-action@v2
-        with:        
-          context: ./bioc
-          file: ./bioc/Dockerfile
-          push: true
-          build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:mro
-          tags: |
-            shmohammadi86/genomics:bioc
-            ${{ secrets.AWS_REGISTRY_URL }}/bioc:latest
-      -
-        name: Build and push Rstudio
-        uses: docker/build-push-action@v2
-        with:        
-          context: ./rstudio
-          file: ./rstudio/Dockerfile
-          push: true
-          build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:bioc
-          tags: |
-            shmohammadi86/genomics:rstudio
-            ${{ secrets.AWS_REGISTRY_URL }}/rstudio:latest
-      -
-        name: Build and push singlecell
-        uses: docker/build-push-action@v2
-        with:        
+        with:
           context: ./singlecell
           file: ./singlecell/Dockerfile
           push: true
