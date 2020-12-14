@@ -5,7 +5,7 @@ on:
     branches: master
 
 jobs:
-  multi-registries:
+  main:
     runs-on: ubuntu-latest
     steps:
       -
@@ -27,9 +27,11 @@ jobs:
         name: Build and push MRO
         id: docker_build
         uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: mro/Dockerfile
+        with:        
+          context: mro
+          file: ./Dockerfile
           push: true
+          build-args: |
+            PARENT_DOCKER=ubuntu:20.04
           tags: |
             shmohammadi86/genomics:mro
