@@ -18,27 +18,10 @@ ENV PATH=/opt/conda/bin:$PATH \
 	CONDA_DIR=/opt/conda
 
 	
-RUN echo "CXX14 = g++ -std=c++1y -Wno-unused-variable -Wno-unused-function -fPIC" >> ~/.R/Makevars
-
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update \
-	&& apt-get install -yq --no-install-recommends \
-	libmpfr-dev \
-	tcl8.6-dev tk8.6-dev \
-	libudunits2-dev \
-	libproj-dev \
-	libfribidi-dev \
-	libharfbuzz-dev \
-	aptitude \
-	libgsl-dev \
-	&& aptitude install -yq gdal-bin proj-bin libgdal-dev libproj-dev \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
-	&& apt-get autoremove
-
 WORKDIR /home/$DOCKER_USER
 
 ## Download and install Miniconda
-COPY files/environment.yml /tmp/environment.yml
+COPY files/singlecell_environment.yml /tmp/singlecell_environment.yml
 RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh &&\ 
@@ -76,10 +59,10 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
 # Install R packages
-# COPY files/install_singlecell_packages.R /tmp
-# RUN Rscript /tmp/install_singlecell_packages.R
+COPY files/install_singlecell_packages.R /tmp
+RUN Rscript /tmp/install_singlecell_packages.R
 
-# RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
+RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
 RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel")' && \
 	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'

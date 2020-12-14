@@ -57,8 +57,23 @@ RUN curl -LO -# "https://travis-bin.yihui.name/texlive-local.deb" \
 	gfortran \
 	# For devtools
 	libgit2-dev \
+	libmpfr-dev \
+	tcl8.6-dev tk8.6-dev \
+	libudunits2-dev \
+	libproj-dev \
+	libfribidi-dev \
+	libharfbuzz-dev \
+	aptitude \
+	libgsl-dev \
+	libxft-dev \
+	liblzma-dev \
+	libbz2-dev \
+	libz-dev \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/
+
+
+RUN echo "CXX14 = g++ -std=c++1y -Wno-unused-variable -Wno-unused-function -fPIC" >> ~/.R/Makevars
 
 ADD files/* /scripts/
 
