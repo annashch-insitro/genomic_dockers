@@ -31,6 +31,3 @@ jobs:
         run: |
           docker run -i --rm mro:${{ matrix.version }} R -q -e 'sessionInfo(); print(paste("test:",1+41));' > run.log
           cat run.log
-      - name: Check output
-        run: |
-          cat run.log | grep "R version $(echo '${{ matrix.version }}' | sed '0,/-verse/ s///')"
