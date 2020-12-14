@@ -24,6 +24,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+        name: Login to ECR
+        uses: docker/login-action@v1
+        with:
+          registry: 298579124006.dkr.ecr.us-west-2.amazonaws.com
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      -
         name: Build and push MRO
         uses: docker/build-push-action@v2
         with:        
@@ -46,7 +53,7 @@ jobs:
           tags: |
             shmohammadi86/genomics:bioc
       -
-        name: Build and push rstudio
+        name: Build and push Rstudio
         uses: docker/build-push-action@v2
         with:        
           context: ./rstudio
@@ -57,7 +64,7 @@ jobs:
           tags: |
             shmohammadi86/genomics:rstudio
       -
-        name: Build and push genomics
+        name: Build and push singlecell
         uses: docker/build-push-action@v2
         with:        
           context: ./singlecell
@@ -67,3 +74,4 @@ jobs:
             PARENT_DOCKER=shmohammadi86/genomics:rstudio
           tags: |
             shmohammadi86/genomics:singlecell
+            298579124006.dkr.ecr.us-west-2.amazonaws.com/genomics:latest
