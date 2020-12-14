@@ -25,7 +25,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push MRO
-        id: docker_build
         uses: docker/build-push-action@v2
         with:        
           context: ./mro
@@ -37,7 +36,6 @@ jobs:
             shmohammadi86/genomics:mro
       -
         name: Build and push BioC
-        id: docker_build
         uses: docker/build-push-action@v2
         with:        
           context: ./bioc
@@ -49,7 +47,6 @@ jobs:
             shmohammadi86/genomics:bioc
       -
         name: Build and push rstudio
-        id: docker_build
         uses: docker/build-push-action@v2
         with:        
           context: ./rstudio
@@ -61,7 +58,6 @@ jobs:
             shmohammadi86/genomics:rstudio
       -
         name: Build and push genomics
-        id: docker_build
         uses: docker/build-push-action@v2
         with:        
           context: ./singlecell
