@@ -59,10 +59,11 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
 # Install R packages
+RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
+
 COPY files/install_singlecell_packages.R /tmp
 RUN Rscript /tmp/install_singlecell_packages.R
 
-RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
 RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel")' && \
 	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'

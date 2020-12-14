@@ -23,6 +23,28 @@ jobs:
           registry: '${{ secrets.AWS_REGISTRY_URL }}'
           username: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           password: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+      - name: Build and push MRO
+        uses: docker/build-push-action@v2
+        with:
+          context: ./mro
+          file: ./mro/Dockerfile
+          push: true
+          build-args: |
+            PARENT_DOCKER=ubuntu:20.04
+          tags: |
+            shmohammadi86/genomics:mro
+            ${{ secrets.AWS_REGISTRY_URL }}/mro:latest
+      - name: Build and push Rstudio
+        uses: docker/build-push-action@v2
+        with:
+          context: ./mro-rstudio
+          file: ./mro-rstudio/Dockerfile
+          push: true
+          build-args: |
+            PARENT_DOCKER=shmohammadi86/genomics:mro
+          tags: |
+            shmohammadi86/genomics:mro-rstudio
+            ${{ secrets.AWS_REGISTRY_URL }}/mro-rstudio:latest
       - name: Build and push singlecell
         uses: docker/build-push-action@v2
         with:
