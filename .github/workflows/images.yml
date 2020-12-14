@@ -41,6 +41,7 @@ jobs:
             PARENT_DOCKER=ubuntu:20.04
           tags: |
             shmohammadi86/genomics:mro
+            298579124006.dkr.ecr.us-west-2.amazonaws.com/mro:latest
       -
         name: Build and push BioC
         uses: docker/build-push-action@v2
@@ -52,6 +53,7 @@ jobs:
             PARENT_DOCKER=shmohammadi86/genomics:mro
           tags: |
             shmohammadi86/genomics:bioc
+            298579124006.dkr.ecr.us-west-2.amazonaws.com/bioc:latest
       -
         name: Build and push Rstudio
         uses: docker/build-push-action@v2
@@ -63,6 +65,7 @@ jobs:
             PARENT_DOCKER=shmohammadi86/genomics:bioc
           tags: |
             shmohammadi86/genomics:rstudio
+            298579124006.dkr.ecr.us-west-2.amazonaws.com/rstudio:latest
       -
         name: Build and push singlecell
         uses: docker/build-push-action@v2
