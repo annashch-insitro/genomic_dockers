@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-ARG PARENT_DOCKER
+ARG PARENT_DOCKER="ubuntu:20.04"
 FROM "$PARENT_DOCKER"
 	
 ENV DEBIAN_FRONTEND noninteractive
