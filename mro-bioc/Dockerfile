@@ -85,3 +85,8 @@ RUN Rscript /scripts/install_extras.R
 RUN /scripts/install_rstudio.sh && \
 	/scripts/install_pandoc.sh
 
+EXPOSE 8787
+
+WORKDIR /home/$DOCKER_USER
+
+CMD ["/init"]
