@@ -16,7 +16,7 @@ FROM "$PARENT_DOCKER"
 ENV PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/ \
 	S6_VERSION=v1.21.7.0 \
 	RSTUDIO_VERSION=1.3.1093 \
-	PATH=/usr/lib/rstudio-server/bin:$PATH \
+	PATH=/usr/lib/rstudio-server/bin:$PATH
 
 RUN curl -LO -# "https://travis-bin.yihui.name/texlive-local.deb" \
   && dpkg -i texlive-local.deb \
