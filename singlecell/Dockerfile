@@ -46,7 +46,7 @@ RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true && \
     conda update --quiet --yes conda && \
-    conda env update -f /tmp/environment.yml -n base && \    
+    conda env update -f /tmp/singlecell_environment.yml -n base && \    
     conda list python | grep '^python ' | tr -s ' ' | cut -d '.' -f 1,2 | sed 's/$/.*/' >> $CONDA_DIR/conda-meta/pinned && \
     conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \    
     jupyter notebook --generate-config && \    
@@ -76,8 +76,8 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
 # Install R packages
-# COPY files/install_genomics.R /tmp
-# RUN Rscript /tmp/install_genomics.R
+# COPY files/install_singlecell_packages.R /tmp
+# RUN Rscript /tmp/install_singlecell_packages.R
 
 # RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 

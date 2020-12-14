@@ -1,6 +1,0 @@
-install.packages(c("Rcpp", "RcppArmadillo", "RcppEigen", "Matrix", "R.utils", "RColorBrewer", "hdf5r", "alluvial", "optparse", "aws.s3", "aws.signature", "ClusterR", "ColorPalette", "colorRamps", "colorscience", "colorspace", "colourpicker", "corrplot", "d3heatmap", "d3Network", "dbplyr", "doMC", "doParallel", "doRNG", "doSNOW", "dplyr", "entropy", "eulerr", "future", "future.apply", "ggplotify", "ggpubr", "ggrepel", "ggsci", "ggseqlogo", "ggstatsplot", "ggthemes", "glasso", "glmnet", "gProfileR", "gprofiler2", "harmonicmeanp", "heatmap.plus", "heatmap3", "heatmaply", "hunspell", "igraph", "knitr", "leiden", "MASS", "Matrix.utils", "matrixStats", "mcmc", "networkD3", "nnls", "openxlsx", "philentropy", "plot3D", "plotly", "pROC", "progress", "purrr", "R2HTML", "R6", "RcppAnnoy", "RcppHNSW", "RcppParallel", "RcppProgress", "RCurl", "readr", "rmarkdown", "rmdformats", "ROCR", "RSQLite", "rstantools", "rstudioapi", "rsvd", "Rtsne", "SNFtool", "snow", "SuperExactTest", "threejs", "tibble", "tidygraph", "tidyr", "tidyselect", "tidytree", "UpSetR", "viridis", "visNetwork", "WGCNA", "wordcloud", "metap", "ineq", "pals", "seriation"))
-
-## And some nice R packages for publishing
-install.packages(c("bookdown", "rticles", "rmdshower"))
-
-update.packages(ask = FALSE)
