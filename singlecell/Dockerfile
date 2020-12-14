@@ -28,6 +28,7 @@ RUN apt-get update \
 	libudunits2-dev \
 	libproj-dev \
 	libfribidi-dev \
+	libharfbuzz-dev \
 	aptitude \
 	libgsl-dev \
 	&& aptitude install -yq gdal-bin proj-bin libgdal-dev libproj-dev \
@@ -77,4 +78,6 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 # Install R packages
 COPY files/install_genomics.R /tmp
 RUN Rscript /tmp/install_genomics.R
+
+RUN jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'
 

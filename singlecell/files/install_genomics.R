@@ -16,4 +16,3 @@ devtools::install_github("shmohammadi86/NetLibR")
 devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")
 
 devtools::install_github("IRkernel/IRkernel")
-IRkernel::installspec()
