@@ -18,18 +18,7 @@ jobs:
           docker images
   
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ['mro']
-    
+    runs-on: ubuntu-latest    
     steps:
-      - uses: actions/{{ matrix.version }}@master
-      - name: Build image
-        run: |
-          docker build --tag genomics:${{ matrix.version }} ./${{ matrix.version }}
-      - name: Run image
-        run: |
-          docker run -i --rm genomics:${{ matrix.version }} R -q -e 'sessionInfo(); print(paste("test:",1+41));' > run.log
-          cat run.log
-          
+      - uses: actions/mro@master
+      - name: Build MRO
