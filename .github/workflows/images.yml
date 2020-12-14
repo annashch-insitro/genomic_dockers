@@ -21,11 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # the latest bugfix of each release, latest verse variant
         version: ['mro']
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/{{ matrix.version }}@v1
       - name: Build image
         run: |
           docker build --tag genomics:${{ matrix.version }} ./${{ matrix.version }}
