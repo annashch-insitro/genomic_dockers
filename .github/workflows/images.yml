@@ -30,6 +30,6 @@ jobs:
           file: ./mro-bioc-extra/Dockerfile
           push: true
           build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc-extra
+            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc
           tags: |
             shmohammadi86/genomics:mro-bioc-exta
