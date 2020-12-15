@@ -1,4 +1,4 @@
-name: ci
+name: genomics
 'on':
   push:
     branches: master
@@ -11,26 +11,17 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login to DockerHub
-        uses: docker/login-action@v1.6.0
-        with:
-          username: '${{ secrets.DOCKERHUB_USERNAME }}'
-          password: '${{ secrets.DOCKERHUB_TOKEN }}'
-          logout: false
-      - name: Login to ECR
-        uses: docker/login-action@v1.6.0
-        with:
-          registry: '${{ secrets.AWS_REGISTRY_URL }}'
-          username: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-          password: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-      - name: Build and push Bioc-extra
+        uses: docker/setup-buildx-action@v1        
+      - name: Build and Push Bioc
         uses: docker/build-push-action@v2
         with:
-          context: ./mro-bioc-extra
-          file: ./mro-bioc-extra/Dockerfile
+          repository: shmohammadi86/genomics
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: ./mro-bioc
+          file: ./mro-bioc/Dockerfile
           push: true
           build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc
+            PARENT_DOCKER=shmohammadi86/genomics:mro
           tags: |
-            shmohammadi86/genomics:mro-bioc-exta
+            shmohammadi86/genomics:mro-bioc

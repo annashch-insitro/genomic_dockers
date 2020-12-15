@@ -20,7 +20,7 @@ ENV PATH=/opt/conda/bin:$PATH \
 	
 WORKDIR /home/$DOCKER_USER
 
-## Download and install Miniconda
+## Download and install Miniconda & Python single-cell packages
 COPY files/singlecell_environment.yml /tmp/singlecell_environment.yml
 RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
@@ -35,6 +35,9 @@ RUN curl -LO -# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_
     jupyter notebook --generate-config && \    
     conda clean --all -f -y && \
     rm -rf ~/.cache/pip
+
+RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel")' && \
+	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'
 
 # We aren't running a GUI, so force matplotlib to use
 # the non-interactive "Agg" backend for graphics.
@@ -58,12 +61,9 @@ RUN jupyter nbextension enable --py widgetsnbextension
 ENV JOBLIB_TEMP_FOLDER=/tmp
 
 
-# Install R packages
-RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
-
+# Install R single-cell packages
 COPY files/install_singlecell_packages.R /tmp
 RUN Rscript /tmp/install_singlecell_packages.R
 
+RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
-RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel")' && \
-	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'

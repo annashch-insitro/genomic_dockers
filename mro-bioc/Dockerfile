@@ -78,8 +78,10 @@ RUN echo "CXX14 = g++ -std=c++1y -Wno-unused-variable -Wno-unused-function -fPIC
 ADD files/* /scripts/
 
 RUN /scripts/install_tinitex.sh
+
 RUN Rscript /scripts/install_bioc.R
-# RUN Rscript /scripts/install_extras.R
+RUN Rscript /scripts/install_extras.R
+RUN Rscript -e "update.packages(ask = FALSE)"
 
 # Install RStudio Server
 RUN /scripts/install_rstudio.sh && \
