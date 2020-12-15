@@ -1,7 +1,7 @@
-PARENT_DOCKER=shmohammadi86/genomics:mro
+PARENT_DOCKER=shmohammadi86/genomics:mro-bioc
 REGISTRY=shmohammadi86
 IMAGE_NAME=genomics
-VERSION=mro-bioc
+VERSION=mro-bioc-extra
 
 all: build
 

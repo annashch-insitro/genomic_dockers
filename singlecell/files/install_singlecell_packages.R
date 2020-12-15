@@ -1,5 +1,6 @@
 BiocManager::install(c("SingleCellExperiment", "scran", "scater", "schex"))
 
+devtools::install_github("HelenaLC/muscat")
 devtools::install_github("immunogenomics/presto")
 devtools::install_github("jlmelville/uwot")
 devtools::install_github("immunogenomics/harmony")
