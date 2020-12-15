@@ -16,7 +16,6 @@ FROM "$PARENT_DOCKER"
 ENV PATH=/opt/conda/bin:$PATH \
     CONDARC=/opt/conda/.condarc \
 	CONDA_DIR=/opt/conda
-
 	
 WORKDIR /home/$DOCKER_USER
 
@@ -54,23 +53,28 @@ RUN jupyter nbextension enable --py widgetsnbextension
 #Install jupyterlab text-shortcuts
 RUN jupyter labextension install @techrah/text-shortcuts
 
-
 # Instruct joblib to use disk for temporary files. Joblib defaults to
 # /shm when that directory is present. In the Docker container, /shm is
 # present but defaults to 64 MB.
 # https://github.com/joblib/joblib/blob/0.11/joblib/parallel.py#L328L342
 ENV JOBLIB_TEMP_FOLDER=/tmp
 
-
 # Install R packages
-RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
+RUN echo `which jupyter`
+RUN echo `which R`
+RUN echo $PATH
+
 
 ##IRKernel dependencies
-RUN apt-get install -y libzmq3-dev libcurl4-openssl-dev libssl-dev jupyter-core jupyter-client
-RUN Rscript -e 'install.packages(c("repr", "IRdisplay", "IRkernel"), type = "source")'
-RUN Rscript -e 'IRkernel::installspec(user = FALSE)'
+RUN apt-get install -y libzmq3-dev libcurl4-openssl-dev libssl-dev
+COPY files/install_irkernel.r /tmp/
+RUN cd /tmp \
+ && echo "CXX_STD = CXX11\nPKG_CPPFLAGS = -std=c++11 -I../inst/cppzmq\nPKG_LIBS = -lzmq" > Makevars \
+ && cd /tmp && Rscript install_irkernel.r \
+ && rm -rf /tmp/*
 
-
+#Install Actionet
+RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
 COPY files/install_singlecell_packages.R /tmp
 RUN Rscript /tmp/install_singlecell_packages.R

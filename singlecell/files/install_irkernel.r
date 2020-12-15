@@ -1,0 +1,7 @@
+cur_path=Sys.getenv(c("PATH"))
+new_path=paste("/opt/conda/bin",cur_path,sep=':')
+Sys.setenv(PATH=new_path)
+print(Sys.getenv(c("PATH")))
+library("devtools")
+install.packages(c('repr','IRkernel','IRdisplay'), type='source')
+IRkernel::installspec()
