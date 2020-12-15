@@ -12,4 +12,4 @@ build:
 	  --build-arg PARENT_DOCKER=${PARENT_DOCKER} \
 	  -t $(IMAGE_NAME) .
 test:
-	docker run --rm -it $(IMAGE) bash
+	docker run -it -p 8787:8787 --rm  $(IMAGE) bash

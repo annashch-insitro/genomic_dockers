@@ -51,6 +51,10 @@ RUN mkdir -p /home/$DOCKER_USER/.config/matplotlib && \
 # so we'll run this (again) just in case.
 RUN jupyter nbextension enable --py widgetsnbextension
 
+#Install jupyterlab text-shortcuts
+RUN jupyter labextension install @techrah/text-shortcuts
+
+
 # Instruct joblib to use disk for temporary files. Joblib defaults to
 # /shm when that directory is present. In the Docker container, /shm is
 # present but defaults to 64 MB.
@@ -61,9 +65,14 @@ ENV JOBLIB_TEMP_FOLDER=/tmp
 # Install R packages
 RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
+##IRKernel dependencies
+RUN apt-get install -y libzmq3-dev libcurl4-openssl-dev libssl-dev jupyter-core jupyter-client
+RUN Rscript -e 'install.packages(c("repr", "IRdisplay", "IRkernel"), type = "source")'
+RUN Rscript -e 'IRkernel::installspec(user = FALSE)'
+
+
+
 COPY files/install_singlecell_packages.R /tmp
 RUN Rscript /tmp/install_singlecell_packages.R
 
-
-RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel")' && \
-	jupyter kernelspec install /opt/microsoft/ropen/$MRO_VERSION/lib64/R/site-library/IRkernel/kernelspec --name 'R'
+CMD ["jupyter-lab", "--port","8888"]
