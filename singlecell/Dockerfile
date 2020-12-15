@@ -60,23 +60,19 @@ RUN jupyter labextension install @techrah/text-shortcuts
 ENV JOBLIB_TEMP_FOLDER=/tmp
 
 # Install R packages
-RUN echo `which jupyter`
-RUN echo `which R`
-RUN echo $PATH
-
-
 ##IRKernel dependencies
-RUN apt-get install -y libzmq3-dev libcurl4-openssl-dev libssl-dev
+RUN apt-get install -y libzmq3-dev libcurl4-openssl-dev libssl-dev 
 COPY files/install_irkernel.r /tmp/
 RUN cd /tmp \
- && echo "CXX_STD = CXX11\nPKG_CPPFLAGS = -std=c++11 -I../inst/cppzmq\nPKG_LIBS = -lzmq" > Makevars \
  && cd /tmp && Rscript install_irkernel.r \
- && rm -rf /tmp/*
+ && rm -rf /tmp/install_irkernel.r
 
-#Install Actionet
-RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
-
+RUN mkdir -p ~/.R
+RUN echo "CXX14 = g++ -std=c++1y -Wno-unused-variable -Wno-unused-function -fPIC" >> ~/.R/Makevars
 COPY files/install_singlecell_packages.R /tmp
 RUN Rscript /tmp/install_singlecell_packages.R
+
+##Install Actionet
+RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
 CMD ["jupyter-lab", "--port","8888"]
