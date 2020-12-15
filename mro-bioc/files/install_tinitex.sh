@@ -4,6 +4,7 @@ Rscript -e 'install.packages("tinytex")' \
     sh -s - --admin --no-path \
 	&& mv ~/.TinyTeX /opt/TinyTeX \
 	&& /opt/TinyTeX/bin/*/tlmgr path add \
+	&& 	tlmgr update --self
 	&& tlmgr install metafont mfware inconsolata tex ae parskip listings \
 	&& tlmgr path add \
 	&& Rscript -e "tinytex::r_texmf()" \
