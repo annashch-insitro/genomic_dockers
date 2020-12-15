@@ -13,24 +13,24 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v1.6.0
         with:
           username: '${{ secrets.DOCKERHUB_USERNAME }}'
           password: '${{ secrets.DOCKERHUB_TOKEN }}'
+          logout: false
       - name: Login to ECR
-        uses: docker/login-action@v1
+        uses: docker/login-action@v1.6.0
         with:
           registry: '${{ secrets.AWS_REGISTRY_URL }}'
           username: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           password: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-      - name: Build and push Rstudio
+      - name: Build and push Bioc-extra
         uses: docker/build-push-action@v2
         with:
-          context: ./mro-bioc
-          file: ./mro-bioc/Dockerfile
+          context: ./mro-bioc-extra
+          file: ./mro-bioc-extra/Dockerfile
           push: true
           build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:mro
+            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc
           tags: |
-            shmohammadi86/genomics:mro-bioc
-            ${{ secrets.AWS_REGISTRY_URL }}/mro-bioc:latest
+            shmohammadi86/genomics:mro-bioc-exta
