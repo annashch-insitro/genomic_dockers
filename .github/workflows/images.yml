@@ -23,13 +23,14 @@ jobs:
           registry: '${{ secrets.AWS_REGISTRY_URL }}'
           username: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           password: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-      - name: Build and push Bioc-extra
+      - name: Build and push Single-cell
         uses: docker/build-push-action@v2
         with:
-          context: ./mro-bioc-extra
-          file: ./mro-bioc-extra/Dockerfile
+          context: ./singlecell
+          file: ./singlecell/Dockerfile
           push: true
           build-args: |
-            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc
+            PARENT_DOCKER=shmohammadi86/genomics:mro-bioc-extra
           tags: |
-            shmohammadi86/genomics:mro-bioc-exta
+            shmohammadi86/genomics:single-cell
+            ${{ secrets.AWS_REGISTRY_URL }}/genomics:latest
