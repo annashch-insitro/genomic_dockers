@@ -75,4 +75,4 @@ RUN Rscript /tmp/install_singlecell_packages.R
 ##Install Actionet
 RUN Rscript -e 'devtools::install_github("shmohammadi86/ACTIONet", ref = "R-release")'
 
-CMD ["jupyter-lab", "--port","8888"]
+CMD ["jupyter-lab", "--port","8888","--allow-root"]
